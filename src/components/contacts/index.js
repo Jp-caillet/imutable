@@ -44,10 +44,17 @@ const Contacts = ({ items }) => {
   const [prenom, setPrenom] = useState('');
   const [phone, setPhone] = useState('');
   const [city, setCity] = useState('');
+  const [search, setSearch] = useState('');
   console.log(id);
   return (
     <div>
+      <p> recherche: </p>
+      <input placeholder="search nom/prenom" onChange={(e) => setSearch(e.target.value)} />
+      <br />
+      <br />
+      <br />
       <div>
+        <p> Ajouts: </p>
         <form className="form">
           <label htmlFor="firstName">
             Prénom
@@ -75,21 +82,29 @@ const Contacts = ({ items }) => {
           </button>
         </form>
       </div>
+      <br />
+      <br />
+      <br />
+      <p> liste: </p>
       <ul>
-        {items.map((user) => (
-          <Contact
-            user={user}
-            id={setId}
-            nom={setNom}
-            prenom={setPrenom}
-            phones={setPhone}
-            city={setCity}
-            key={keyGen()}
-          />
-        ))}
+        {items.filter((i) => i.firstName.toLowerCase().indexOf(search.toLowerCase()) !== -1
+          || i.lastName.toLowerCase().indexOf(search.toLowerCase()) !== -1).map((user) => (
+            <Contact
+              user={user}
+              id={setId}
+              nom={setNom}
+              prenom={setPrenom}
+              phones={setPhone}
+              city={setCity}
+              key={keyGen()}
+            />
+        )).sort()}
       </ul>
+      <br />
+      <br />
+      <br />
       <div>
-        Update
+        Update (select an element of list for update):
         <form className="form">
           <label htmlFor="firstName">
             Prénom
