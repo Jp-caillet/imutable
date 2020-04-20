@@ -29,7 +29,7 @@ const deleteContact = (state, action) => List(state).remove(action.id);
  ** EDIT Contact
  */
 const editContact = (state, action) => {
-  const updateContact = List(state).update(action.id, () => action);
+  const updateContact = List(state).update(action.contact.id, () => action.contact);
   return List(state).set(updateContact).toJS();
 };
 
@@ -41,6 +41,7 @@ export default (state = initialState, action) => {
     case actionTypes.DELETE_CONTACT:
       return deleteContact(state, action);
     case actionTypes.UPDATE_CONTACT:
+      console.log(action);
       return editContact(state, action);
     default:
       return state;

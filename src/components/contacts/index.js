@@ -19,7 +19,7 @@ const Contact = ({
       <span>{`${firstName} ${phone}`}</span>
       <button
         type="button"
-        onClick={() => dispatch(deleteContact(id))}
+        onClick={() => dispatch(deleteContact(user.id))}
       >
         delete
       </button>
@@ -41,12 +41,11 @@ const Contact = ({
 
 const Contacts = ({ contacts, dispatch }) => {
   const [id, setId] = useState(0);
-  const [nom, setNom] = useState('test');
+  const [nom, setNom] = useState('');
   const [prenom, setPrenom] = useState('');
   const [phone, setPhone] = useState('');
   const [city, setCity] = useState('');
   const [search, setSearch] = useState('');
-  console.log(id);
   return (
     <div>
       <p> recherche: </p>
@@ -76,7 +75,7 @@ const Contacts = ({ contacts, dispatch }) => {
           <button
             type="button"
             onClick={() => dispatch(addContact({
-              id: 0, firstName: document.querySelector('#firstName').value, lastName: document.querySelector('#lastName').value, phone: document.querySelector('#phone').value, city: document.querySelector('#city').value
+              id: Date.now(), firstName: document.querySelector('#firstName').value, lastName: document.querySelector('#lastName').value, phone: document.querySelector('#phone').value, city: document.querySelector('#city').value
             }))}
           >
             Add
@@ -126,9 +125,9 @@ const Contacts = ({ contacts, dispatch }) => {
           </label>
           <button
             type="button"
-            onClick={() => updateContact({
+            onClick={() => dispatch(updateContact({
               id, firstName: prenom, lastName: nom, phone, city
-            })}
+            }))}
           >
             update
           </button>
