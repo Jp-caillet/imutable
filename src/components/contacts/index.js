@@ -19,7 +19,7 @@ const Contact = ({
       <span>{`${firstName} ${phone}`}</span>
       <button
         type="button"
-        onClick={() => dispatch(deleteContact(user))}
+        onClick={() => dispatch(deleteContact(id))}
       >
         delete
       </button>
@@ -39,7 +39,7 @@ const Contact = ({
   );
 };
 
-const Contacts = ({ items, dispatch }) => {
+const Contacts = ({ contacts, dispatch }) => {
   const [id, setId] = useState(0);
   const [nom, setNom] = useState('test');
   const [prenom, setPrenom] = useState('');
@@ -88,7 +88,7 @@ const Contacts = ({ items, dispatch }) => {
       <br />
       <p> liste: </p>
       <ul>
-        {items.filter((i) => i.firstName.toLowerCase().indexOf(search.toLowerCase()) !== -1
+        {contacts.filter((i) => i.firstName.toLowerCase().indexOf(search.toLowerCase()) !== -1
           || i.lastName.toLowerCase().indexOf(search.toLowerCase()) !== -1).map((user) => (
             <Contact
               dispatch={dispatch}
@@ -139,8 +139,8 @@ const Contacts = ({ items, dispatch }) => {
 };
 
 const mapToProps = (state) => {
-  const { items } = state.contacts;
-  return ({ items });
+  const { contacts } = state;
+  return ({ contacts });
 };
 
 export default connect(mapToProps)(Contacts);

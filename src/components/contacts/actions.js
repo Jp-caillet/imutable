@@ -3,9 +3,9 @@ import actionsTypes from './actions-types';
 /**
  * Add contact
  */
-export const addContact = (contacts) => ({
+export const addContact = (contact) => ({
   type: actionsTypes.ADD_CONTACT,
-  contacts
+  contact
 });
 
 
