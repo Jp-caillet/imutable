@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import keyGen from 'react-id-generator';
-import { addContactV2, deleteContactV2, updateContactV2 } from './actions';
+import { addContact, deleteContact, updateContact } from './actions';
 
 
 const Contact = ({
+  dispatch,
   user,
   id,
   nom,
@@ -18,7 +19,7 @@ const Contact = ({
       <span>{`${firstName} ${phone}`}</span>
       <button
         type="button"
-        onClick={() => deleteContactV2(user)}
+        onClick={() => dispatch(deleteContact(user))}
       >
         delete
       </button>
@@ -38,7 +39,7 @@ const Contact = ({
   );
 };
 
-const Contacts = ({ items }) => {
+const Contacts = ({ items, dispatch }) => {
   const [id, setId] = useState(0);
   const [nom, setNom] = useState('test');
   const [prenom, setPrenom] = useState('');
@@ -74,9 +75,9 @@ const Contacts = ({ items }) => {
           </label>
           <button
             type="button"
-            onClick={() => addContactV2({
+            onClick={() => dispatch(addContact({
               id: 0, firstName: document.querySelector('#firstName').value, lastName: document.querySelector('#lastName').value, phone: document.querySelector('#phone').value, city: document.querySelector('#city').value
-            })}
+            }))}
           >
             Add
           </button>
@@ -90,6 +91,7 @@ const Contacts = ({ items }) => {
         {items.filter((i) => i.firstName.toLowerCase().indexOf(search.toLowerCase()) !== -1
           || i.lastName.toLowerCase().indexOf(search.toLowerCase()) !== -1).map((user) => (
             <Contact
+              dispatch={dispatch}
               user={user}
               id={setId}
               nom={setNom}
@@ -124,7 +126,7 @@ const Contacts = ({ items }) => {
           </label>
           <button
             type="button"
-            onClick={() => updateContactV2({
+            onClick={() => updateContact({
               id, firstName: prenom, lastName: nom, phone, city
             })}
           >

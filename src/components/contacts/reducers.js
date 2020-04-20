@@ -1,4 +1,4 @@
-import { fromJS } from 'immutable';
+import { List } from 'immutable';
 import actionTypes from './actions-types';
 
 const initialState = {
@@ -17,23 +17,32 @@ const initialState = {
   }]
 };
 
-const addContact = (state, action) => (
-  fromJS(state)
-    .setIn(['items'], action.contacts)
-    .toJS()
-);
+/*
+ ** CREATE Contact
+ */
+const addContact = (state, action) => List(state).push(action.contact).toJS();
 
-const deleteContact = (state, id) => ({
-  items: state.items.contact(id)
-});
+/*
+ ** DELETE Contact
+ */
+const deleteContact = (state, action) => List(state).remove(action.id);
+
+/*
+ ** EDIT Contact
+ */
+const editContact = (state, action) => {
+  const updateContact = List(state).update(action.id, () => action);
+  return List(state).set(updateContact).toJS();
+};
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.ADD_CONTACT:
-      console.log(action);
       return addContact(state, action);
     case actionTypes.DELETE_CONTACT:
-      return deleteContact(state, 1);
+      return deleteContact(state, action);
+    case actionTypes.UPDATE_CONTACT:
+      return editContact(state, action);
     default:
       return state;
   }
