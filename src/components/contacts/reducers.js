@@ -1,5 +1,5 @@
-import { List } from 'immutable';
 import actionTypes from './actions-types';
+import Imut from './Imutable';
 
 const initialState = [{
   id: 0,
@@ -18,19 +18,26 @@ const initialState = [{
 /*
  ** CREATE Contact
  */
-const addContact = (state, action) => List(state).push(action.contact).toJS();
+const addContact = (state, action) => {
+  const im = new Imut();
+  return im.list(state).push(action.contact).toJS();
+};
 
 /*
  ** DELETE Contact
  */
-const deleteContact = (state, action) => List(state).remove(action.id);
+const deleteContact = (state, action) => {
+  const im = new Imut();
+  return im.list(state).delete(action.id).toJS();
+};
+
 
 /*
  ** EDIT Contact
  */
 const editContact = (state, action) => {
-  const updateContact = List(state).update(action.contact.id, () => action.contact);
-  return List(state).set(updateContact).toJS();
+  const im = new Imut();
+  return im.list(state).update(action.contact).toJS();
 };
 
 export default (state = initialState, action) => {
@@ -39,6 +46,7 @@ export default (state = initialState, action) => {
       console.log(action);
       return addContact(state, action);
     case actionTypes.DELETE_CONTACT:
+      console.log(action);
       return deleteContact(state, action);
     case actionTypes.UPDATE_CONTACT:
       console.log(action);
